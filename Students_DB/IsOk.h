@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+/*
 bool IsCorrectDate(std::string sDate) {
 	if (sDate.length() < 8 || sDate.length() > 10) {
 		return false;
@@ -15,7 +15,7 @@ bool IsCorrectDate(std::string sDate) {
 			else if (flag == 0 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) day = day * 10 + ((int)sDate[i] - 48);
 			else if (flag == 1 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) month = month * 10 + ((int)sDate[i] - 48);
 			else if (flag == 2 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) year = year * 10 + ((int)sDate[i] - 48);
-			else return false;
+			else return false;//19.8.2019
 		}
 		if (day < 1) {
 			return false;
@@ -111,3 +111,7 @@ bool IsCorrectDate(std::string sDate) {
 		return true;
 	}
 }
+
+//bool IsCorrectName(std::string){
+//	return false;
+//} */
