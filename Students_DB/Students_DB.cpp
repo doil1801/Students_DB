@@ -3,7 +3,6 @@
 #include "StudentClass.h"
 #include "List.h"
 #include <conio.h>
-using namespace std;
 
 #define DOWN 0x50
 #define UP 0x48
@@ -30,8 +29,11 @@ int main() {
 		if (action == DOWN) state = (state + 1) % n;
 		if (action == UP) state = (state - 1 < 0) ? n - 1 : state - 1;
 		if (action == ENTER) {
-			if (state == n - 1) break;
+			n = cons.GetLeng();
+			type = cons.GetType();
 		}
+		if (action == ESCAPE) break;
 	}
-}
+	*/
 
+}

@@ -143,6 +143,8 @@ public:
 		}
 	}
 
+
+
 	T Pop() {
 		int value = lastEl->GetValue();
 		Element<T>* Ptr = lastEl;
