@@ -7,6 +7,11 @@
 #include <iostream>
 
 const int n = 66;
+#define DOWN 80
+#define UP 72
+#define ENTER 13
+#define ESCAPE 27
+
 
 class ConsoleClass {
 private:
@@ -57,23 +62,21 @@ private:
 	int leng = 0;
 	std::string* fieldsOfMenu = NULL;
 	std::string UpNote = "";
-	int status = 0;
+	int state = 0;
 	int type = 0;
 public:
 	ConsoleClass() {
 		SetConsoleCP(1251);
 		SetConsoleOutputCP(1251);
 	}
-	void DrawMenu(int _status, int _type){
+	void DrawMenu(){
 		system("cls");
-		status = _status;
-		type = _type;
-		if (_type == 0) {
+		if (type == 0) {
 			leng = lenOfStartMenu;
 			fieldsOfMenu = fieldsOfStartMenu;
 			UpNote = StartMenu;
 		}
-		else if (_type == 1) {
+		else if (type == 1) {
 			leng = lenOfRedMenu;
 			fieldsOfMenu = fieldsOfRedMenu;
 			UpNote = RedMenu;
@@ -83,7 +86,7 @@ public:
 		std::cout.width(n-1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
 		DrawLine();
 		for (int i = 0; i < leng; i++) {
-			if (i == _status) {
+			if (i == state) {
 				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 			} else {
 				std::cout.width(n - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << '|' << endl;
@@ -102,5 +105,20 @@ public:
 
 	void DrawMenu(int status, int type, List<StudentClass>* listPtr){
 		
+	}
+
+	void Run() {
+		int action = 0;
+		int q = 6;
+		while (true) {
+			DrawMenu();
+			action = _getch();
+			if (action == DOWN) state = (state + 1) % q;
+			if (action == UP) state = (state - 1 < 0) ? q - 1 : state - 1;
+			if (action == ENTER) {
+				
+			}
+			if (action == ESCAPE) break;
+		}
 	}
 };

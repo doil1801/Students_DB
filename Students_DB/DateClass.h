@@ -54,7 +54,7 @@ private:
 				}
 			}
 			}
-			if (_year < 1900 || _year > 2005) {
+			if (_year < 1900 || _year > 3000) {
 				return false;
 			}
 			return true;
@@ -69,6 +69,7 @@ public:
 	bool SetDate(string sDate) {
 		int flag = 0;
 		if (!IsCorrectDate(sDate)) return false;
+		day = 0; month = 0; year = 0;
 		for (int i = 0; i < sDate.length(); i++) {
 			if (sDate[i] == '.') flag++;
 			else if (flag == 0) day = day * 10 + ((int)sDate[i] - 48);
