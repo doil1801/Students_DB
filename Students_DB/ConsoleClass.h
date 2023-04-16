@@ -4,6 +4,7 @@
 #include "StudentClass.h"
 #include <conio.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 
 const int n = 66;
@@ -39,6 +40,8 @@ private:
 		"Пол: ",
 	};
 
+	std::string MenuOfStudents = "Выбор студента";
+
 	const int lenOfRedMenu = 10;
 	std::string RedMenu = "Меню редактирования студентов";
 	std::string fieldsOfRedMenu[10] = {
@@ -62,8 +65,10 @@ private:
 	int leng = 0;
 	std::string* fieldsOfMenu = NULL;
 	std::string UpNote = "";
-	int state = 0;
-	int type = 0;
+	int Menu = 0;
+	int Choice = 0;
+	int action = 0;
+	int menuLen = 6;
 public:
 	ConsoleClass() {
 		SetConsoleCP(1251);
@@ -71,12 +76,12 @@ public:
 	}
 	void DrawMenu(){
 		system("cls");
-		if (type == 0) {
+		if (Menu == 0) {
 			leng = lenOfStartMenu;
 			fieldsOfMenu = fieldsOfStartMenu;
 			UpNote = StartMenu;
 		}
-		else if (type == 1) {
+		else if (Menu == 1) {
 			leng = lenOfRedMenu;
 			fieldsOfMenu = fieldsOfRedMenu;
 			UpNote = RedMenu;
@@ -86,7 +91,7 @@ public:
 		std::cout.width(n-1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
 		DrawLine();
 		for (int i = 0; i < leng; i++) {
-			if (i == state) {
+			if (i == Choice) {
 				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 			} else {
 				std::cout.width(n - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << '|' << endl;
@@ -95,30 +100,91 @@ public:
 		DrawLine();
 	}
 
-	int GetLeng(){
-		return leng;
-	}
+	void DrawMenu(List<StudentClass>& _Students) {
+		system("cls");
+		leng = _Students.Len();
+		UpNote = MenuOfStudents;
 
-	int GetType(){
-		return type;
-	}
 
-	void DrawMenu(int status, int type, List<StudentClass>* listPtr){
-		
-	}
+		DrawLine();
+		std::cout.width(n - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
+		DrawLine();
 
-	void Run() {
-		int action = 0;
-		int q = 6;
-		while (true) {
-			DrawMenu();
-			action = _getch();
-			if (action == DOWN) state = (state + 1) % q;
-			if (action == UP) state = (state - 1 < 0) ? q - 1 : state - 1;
-			if (action == ENTER) {
-				
+		for (int i = 0; i < leng; i++) {
+			if (i == Choice) {
+				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 			}
-			if (action == ESCAPE) break;
+			else {
+				std::cout.width(n - 1); std::cout << left << "| " + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); std::cout << '|' << endl;
+			}
 		}
+		if (Choice == leng) {
+			std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN);  std::cout << left << "*" + fieldsOfStartMenu[5]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
+		} else {
+			std::cout.width(n - 1); std::cout << left << "| " + fieldsOfStartMenu[5]; std::cout << '|' << endl;
+		}
+		DrawLine();
 	}
+
+
+	void Run(List<StudentClass>& _Students, List<string>& _Subjects) {
+
+		while (true) {
+			switch (Menu) {
+			case 0:
+				menuLen = 6;
+				DrawMenu();
+				break;
+			case 1: case 2:
+				menuLen = _Students.Len() + 1;
+				DrawMenu(_Students);
+				break;
+
+			}
+			
+			if (Menu != -1) {
+				action = _getch();
+				if (action == DOWN) Choice = (Choice + 1) % menuLen;
+				if (action == UP) Choice = (Choice - 1 < 0) ? menuLen - 1 : Choice - 1;
+				if (action == ENTER) {
+					switch (Menu) {
+					case 0:
+						switch (Choice) {
+						case 0:
+							Menu = 1;
+							
+							break;
+						case 1:
+							AddStudent(_Students);
+							Menu = 0;
+							break;
+						case 2:
+							Menu = 2;
+							break;
+						case 5:
+							Menu = -1;
+							break;
+						}
+					case 1:
+						if (Choice == menuLen - 1) {
+							Menu = 0;
+						}
+						break;
+					case 2:
+						if (Choice != menuLen - 1) {
+							_Students.Delete(Choice);
+						}
+						Menu = 0;
+
+						break;
+
+					}
+					Choice = 0;
+					}
+				if (action == ESCAPE) break;
+				}
+			} 
+			
+		}
+	
 };
