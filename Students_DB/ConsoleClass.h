@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <iostream>
 
+#include "FileWork.h"
+
 const int n = 66;
 #define DOWN 80
 #define UP 72
@@ -59,6 +61,11 @@ private:
 
 	void DrawLine() const{
 		std::cout.width(n); std::cout.fill('-'); std::cout << "-" << endl;
+		std::cout.fill(' ');
+	}
+
+	void DrawDoubleLine() const {
+		std::cout.width(n); std::cout.fill('-'); std::cout << "-"; std::cout.width(n); std::cout.fill('-'); std::cout << "     -";
 		std::cout.fill(' ');
 	}
 
@@ -126,6 +133,82 @@ public:
 		DrawLine();
 	}
 
+	void DrawMenu(StudentClass _Student) {
+		system("cls");
+		fieldsOfMenu = fieldsOfRedMenu;
+		leng = lenOfRedMenu;
+		UpNote = RedMenu;
+
+
+		DrawLine();
+		std::cout.width(n - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
+		DrawDoubleLine();
+		for (int i = 0; i < leng; i++) {
+			if (i == Choice) {
+				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << "|     ";
+				switch (Choice) {
+				case 0:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << endl;
+					break;
+				case 1:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << to_string(_Student.GetBirthDate().GetDay()) + '.' + to_string(_Student.GetBirthDate().GetMonth()) + '.' + to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << endl;
+					break;
+				case 2:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAdmissionYear() ;  std::cout << '|' << endl;
+					break;
+				case 3:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFuculty();  std::cout << '|' << endl;
+					break;
+				case 4:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << endl;
+					break;
+				case 5:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetGroup();  std::cout << '|' << endl;
+					break;
+				case 6:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << endl;
+					break;
+				case 7:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetSex() ? "Мужчина" : "Женщина";  std::cout << '|' << endl;
+					break;
+				default:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << " ";  std::cout << '|' << endl;
+				}
+			}
+			else {
+				std::cout.width(n - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << "|     " << endl;
+				switch (Choice) {
+				case 0:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << endl;
+					break;
+				case 1:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << to_string(_Student.GetBirthDate().GetDay()) + '.' + to_string(_Student.GetBirthDate().GetMonth()) + '.' + to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << endl;
+					break;
+				case 2:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAdmissionYear();  std::cout << '|' << endl;
+					break;
+				case 3:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFuculty();  std::cout << '|' << endl;
+					break;
+				case 4:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << endl;
+					break;
+				case 5:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetGroup();  std::cout << '|' << endl;
+					break;
+				case 6:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << endl;
+					break;
+				case 7:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetSex() ? "Мужчина" : "Женщина";  std::cout << '|' << endl;
+					break;
+				default:
+					std::cout << left << "| "; std::cout.width(n - 1); std::cout << " ";  std::cout << '|' << endl;
+				}
+			}
+		}
+		DrawDoubleLine();
+	}
 
 	void Run(List<StudentClass>& _Students, List<string>& _Subjects) {
 
@@ -168,6 +251,9 @@ public:
 					case 1:
 						if (Choice == menuLen - 1) {
 							Menu = 0;
+						} else
+						{
+							
 						}
 						break;
 					case 2:

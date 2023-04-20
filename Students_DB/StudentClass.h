@@ -150,14 +150,4 @@ public:
 
 };
 
-void AddStudent(List<StudentClass>& _Students);
 
-int IntLeng(int n);
-
-void WriteToFile(List<StudentClass>& _Students);
-
-void ReadFromFile(List<StudentClass>& _Students);
-
-void WriteSubjToFile(List<string>& _Subjects);
-
-void ReadSubjFromFile(List<string>& _Subjects);

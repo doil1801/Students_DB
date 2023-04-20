@@ -17,6 +17,7 @@ int main() {
 	List<StudentClass> Students;
 	ConsoleClass cons;
 
+	WriteToFile(Students);
 	ReadFromFile(Students);
-	cons.Run(Students, SubjNames);
+	_getch();
 }
