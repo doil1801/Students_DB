@@ -47,6 +47,12 @@ public:
 		group = "Undefined";
 		accountBookNumber = "Undefined";
 		sex = true;
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 10; j++) {
+				examMarks[i][j].mark = -1;
+				examMarks[i][j].name = "Undefined";
+			}
+		}
 	}
 
 	int SetFirstName(std::string namestring) {
@@ -54,22 +60,22 @@ public:
 		return NameCheck(namestring);
 	}
 
+	string GetFirstName() {
+		return name.firstName;
+	}
+
 	int SetSecondName(std::string namestring){
 		if (NameCheck(namestring) == 0) name.secondName = namestring;
 		return NameCheck(namestring);
 	}
 
+	string GetSecondName() {
+		return name.secondName;
+	}
+
 	int SetSurName(std::string namestring){
 		if (NameCheck(namestring) == 0) name.surName = namestring;
 		return NameCheck(namestring);
-	}
-
-	string GetFirstName(){
-		return name.firstName;
-	}
-
-	string GetSecondName() {
-		return name.secondName;
 	}
 
 	string GetSurName() {
@@ -148,6 +154,21 @@ public:
 		return sex;
 	}
 
+	void SetValueMark(int _semester, int _pos, int _value) {
+		examMarks[_semester][_pos].mark = _value;
+	}
+
+	void SetNameMark(int _semester, int _pos, string _name) {
+		examMarks[_semester][_pos].name = _name;
+	}
+
+	int GetValueMark(int _semester, int _pos) {
+		return examMarks[_semester][_pos].mark;
+	}
+
+	string GetNameMark(int _semester, int _pos) {
+		return examMarks[_semester][_pos].name;
+	}
 };
 
 

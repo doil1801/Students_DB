@@ -68,7 +68,7 @@ public:
 
 	void Insert(T rec, unsigned int idEl) {
 		if (idEl > amount) {
-			cout << "Error";
+			cout << "Insert error";
 			return;
 		}
 		else {
@@ -101,7 +101,7 @@ public:
 
 	void Edit(T rec, unsigned int idEl) {
 		if (idEl > amount) {
-			cout << "Error";
+			cout << "Edit error";
 		}
 		else {
 			Element<T>* idElement = firstEl;
@@ -116,7 +116,7 @@ public:
 
 	void Set(int val, unsigned int idEl) {
 		if (idEl > amount) {
-			std::cout << "Error";
+			std::cout << "Set error";
 		}
 		else {
 			Element<T>* newElementPtr = new Element<T>;
@@ -163,7 +163,7 @@ public:
 
 	void Delete(unsigned int idEl) {
 		if (idEl >= amount || amount == 0) {
-			std::cout << "Error";
+			std::cout << "Delete error";
 		}
 		else {
 			Element<T>* idElement = firstEl;
@@ -189,7 +189,7 @@ public:
 
 	T Get(unsigned int idEl) {
 		if (idEl >= amount) {
-			std::cout << "Error";
+			std::cout << "Get error";
 		}
 		else {
 			Element<T>* idElement = firstEl;
@@ -200,7 +200,27 @@ public:
 		}
 	}
 
+
+
 	int Len(){
 		return amount;
+	}
+
+	~List() {
+		Element<T>* curEl;
+		if (firstEl != nullptr) {
+			curEl = firstEl;
+		}
+		else {
+			return;
+		}
+
+		for (int i = 0; i < amount-1; i++) {
+			Element<T>* nextEl = curEl->GetNextPtr();
+			delete curEl;
+			curEl = nextEl;
+		}
+
+		delete lastEl;
 	}
 };

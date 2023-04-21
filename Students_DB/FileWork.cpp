@@ -1,4 +1,5 @@
 #include "FileWork.h"
+#include <conio.h>
 
 void AddStudent(List<StudentClass>& _Students) {
 	system("cls");
@@ -73,7 +74,6 @@ void AddStudent(List<StudentClass>& _Students) {
 				break;
 			}
 		}
-
 	}
 
 	while (true) {
@@ -97,11 +97,9 @@ void AddStudent(List<StudentClass>& _Students) {
 				cout << "Ошибка. Введененое значение должно содержать только цифры" << endl;
 				break;
 			case 2:
-				cout << "Ошибка. Введененое значение некорректно" << endl;
+				cout << "Ошибка. Введенное значение некорректно" << endl;
 				break;
 			}
-			cin.clear();
-			cin.ignore();
 		}
 	}
 
@@ -194,16 +192,25 @@ void WriteToFile(List<StudentClass>& _Students) {
 		fprintf(file, "%d:%s ", _Students.Get(i).GetDepartment().length(), _Students.Get(i).GetDepartment().c_str());
 		fprintf(file, "%d:%s ", _Students.Get(i).GetGroup().length(), _Students.Get(i).GetGroup().c_str());
 		fprintf(file, "%d:%s ", _Students.Get(i).GetAccountBookNumber().length(), _Students.Get(i).GetAccountBookNumber().c_str());
-		fprintf(file, "%d:%d\n", 1, (int)_Students.Get(i).GetSex());
+		fprintf(file, "%d:%d ", 1, (int)_Students.Get(i).GetSex());
+
+		
+		for (int j = 0; j < 9; j++) {
+			for (int k = 0; k < 10; k++) {
+				if (_Students.Get(i).GetValueMark(j, k) != -1) fprintf(file, "%d:%s:%d ", _Students.Get(i).GetNameMark(j, k).length(), _Students.Get(i).GetNameMark(j, k).c_str(), _Students.Get(i).GetValueMark(j, k));
+			}
+			if (j != 8) fprintf(file, "$ ");
+			else fprintf(file, "\n");
+		}
 	}
 
 	fclose(file);
-	Crypt(name);
+//	Crypt(name);
 }
 
 void ReadFromFile(List<StudentClass>& _Students) {
 	string name = "Students.txt";
-	Decrypt(name);
+//	Decrypt(name);
 
 	FILE* file;
 	int lenOfDb = 0;
@@ -302,22 +309,86 @@ void ReadFromFile(List<StudentClass>& _Students) {
 		fscanf_s(file, "%d:%d", &lenOfStr, &buffInt);
 		newStudent.SetSex(buffInt);
 
+		fgetc(file);
+
+		int semester = 0;
+		int numberOfMark = 0;
+		int buffMark;
+
+		while (true) {
+			buffString = "";
+
+			buff = getc(file);
+			if (buff == '\n') break;
+			else if (buff == '$') {
+				semester++;
+				numberOfMark = 0;
+			}
+			else if (buff <= '9' && buff >= '0') {
+				fseek(file, -1, SEEK_CUR);
+				fscanf_s(file, "%d:", &lenOfStr);
+				for (int j = 0; j < lenOfStr; j++) {
+					buffString += getc(file);
+				}
+				fscanf_s(file, ":%d", &buffMark);
+				newStudent.SetValueMark(semester, numberOfMark, buffMark);
+				newStudent.SetNameMark(semester, numberOfMark, buffString);
+				numberOfMark++;
+			}
+		}
+
 		_Students.Append(newStudent);
 	}
 
 	fclose(file);
 }
 
+void ReadMarks(StudentClass& _Student, int n) {
+	FILE* file;
+	char buff = 0;
+	int lenOfStr = 0;
+	int semester = 0;
+	int numberOfMark = 0;
+	int buffMark;
+	string buffString;
+	fopen_s(&file, "Students.txt", "rt");
+
+	while (true) {
+		buffString = "";
+
+		buff = getc(file);
+		if (buff == '\n') break;
+		else if (buff == '$') {
+			semester++;
+			numberOfMark = 0;
+		}
+		else if (buff <= '9' || buff >= '0') {
+			fseek(file, -1, SEEK_CUR);
+			fscanf_s(file, "%d:", &lenOfStr);
+			for (int j = 0; j < lenOfStr; j++) {
+				buffString += getc(file);
+			}
+			fscanf_s(file, ":%d", &buffMark);
+			_Student.SetValueMark(semester, numberOfMark, buffMark);
+			_Student.SetNameMark(semester, numberOfMark, buffString);
+			numberOfMark++;
+		}
+	}
+}
+
 void WriteSubjToFile(List<string>& _Subjects) {
 	FILE* file;
+	string name = "Subjects.txt";
 
-	fopen_s(&file, "Subjects.txt", "wt");
+	fopen_s(&file, name.c_str(), "wt");
 	fprintf(file, "%d\n", _Subjects.Len());
 
 	for (int i = 0; i < _Subjects.Len(); i++) {
 		fprintf(file, "%d:%s\n", _Subjects.Get(i).length(), _Subjects.Get(i).c_str());
 	}
 	fclose(file);
+
+//	Crypt(name);
 }
 
 void ReadSubjFromFile(List<string>& _Subjects) {
@@ -326,13 +397,15 @@ void ReadSubjFromFile(List<string>& _Subjects) {
 	int lenOfStr = 0;
 	string buffString;
 	char buff = 0;
+	string name = "Subjects.txt";
 
-	fopen_s(&file, "Subjects.txt", "rt");
+//	Decrypt(name);
+	fopen_s(&file, name.c_str(), "rt");
 	fscanf_s(file, "%d\n", &numberOfSubjects);
 	for (int i = 0; i < numberOfSubjects; i++) {
 		buffString = "";
 		fscanf_s(file, "%d:", &lenOfStr);
-		for (int i = 0; i < lenOfStr; i++) {
+		for (int j = 0; j < lenOfStr; j++) {
 			buff = getc(file);
 			buffString += buff;
 		}
@@ -344,7 +417,7 @@ void ReadSubjFromFile(List<string>& _Subjects) {
 void Crypt(string filename) {
 	srand(time(NULL));
 	string fileNAME = filename.substr(0, filename.find_last_of('.'));
-	char pass[64];
+	char pass[65];
 	for (int i = 0; i < 64; ++i) {
 		switch (rand() % 3) {
 		case 0:
@@ -357,7 +430,8 @@ void Crypt(string filename) {
 			pass[i] = rand() % 26 + 'a';
 		}
 	}
-	string command = "OpenSSL\\bin\\openssl.exe enc -aes-256-cbc -salt -in " + filename + " -out " + filename + ".enc -pass pass:";
+	pass[64] = '\0';
+	string command = "OpenSSL\\bin\\openssl.exe enc -pbkdf2 -aes-256-cbc -salt -in " + filename + " -out " + filename + ".enc -pass pass:";
 	command += pass;
 	system(command.c_str());
 	if (remove(filename.c_str()) != 0) {
@@ -365,7 +439,7 @@ void Crypt(string filename) {
 	}
 	ofstream file;
 	file.open(fileNAME + "_key.txt", ios::binary);
-	file.write(pass, 65);
+	file.write(pass, 64);
 	file.close();
 
 	command = "OpenSSL\\bin\\openssl.exe pkeyutl -encrypt -inkey rsa.public -pubin -in " + fileNAME+ "_key.txt -out " + fileNAME + "_key.txt.enc";
@@ -373,7 +447,6 @@ void Crypt(string filename) {
 	if (remove((fileNAME + "_key.txt").c_str()) != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
-	system("cls");
 }
 
 void Decrypt(string filename) {
@@ -383,19 +456,20 @@ void Decrypt(string filename) {
 	if (remove((fileNAME + "_key.txt.enc").c_str()) != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
-	char pass [64];
+	char pass [65];
 	ifstream file;
 	file.open("key.txt", ios::binary);
 	file.read(pass, 65);
 	file.close();
+	pass[64] = '\0';
 	if (remove("key.txt") != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
-	command = "OpenSSL\\bin\\openssl.exe enc -aes-256-cbc -d -in " + filename + ".enc -out " + filename + " -pass pass:";
-		command += pass;
-	system(command.c_str());
+	command = "OpenSSL\\bin\\openssl.exe enc -pbkdf2 -aes-256-cbc -d -in " + filename + ".enc -out " + filename + " -pass pass:";
+	command += pass;
+	const char* a = command.c_str();
+	system(a);
 	if (remove((filename + ".enc").c_str()) != 0) {
 		cout << "[ERROR] - deleting file" << endl;
 	}
-
 }

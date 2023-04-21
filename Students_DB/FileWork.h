@@ -12,10 +12,12 @@ void WriteToFile(List<StudentClass>& _Students);
 
 void ReadFromFile(List<StudentClass>& _Students);
 
+void ReadMarks(StudentClass& _Student);
+
 void WriteSubjToFile(List<string>& _Subjects);
 
 void ReadSubjFromFile(List<string>& _Subjects);
 
-void Crypt(const string& filename);
+void Crypt(string filename);
 
-void Decrypt(const string& filename);
+void Decrypt(string filename);
