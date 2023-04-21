@@ -12,8 +12,6 @@ void WriteToFile(List<StudentClass>& _Students);
 
 void ReadFromFile(List<StudentClass>& _Students);
 
-void ReadMarks(StudentClass& _Student);
-
 void WriteSubjToFile(List<string>& _Subjects);
 
 void ReadSubjFromFile(List<string>& _Subjects);

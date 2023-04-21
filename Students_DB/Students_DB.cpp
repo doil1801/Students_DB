@@ -10,8 +10,4 @@ int main() {
 	List<StudentClass> Students;
 	ConsoleClass cons;
 
-//	AddStudent(Students);
-//	WriteToFile(Students);
-	ReadFromFile(Students);
-	_getch();
 }

@@ -205,12 +205,12 @@ void WriteToFile(List<StudentClass>& _Students) {
 	}
 
 	fclose(file);
-//	Crypt(name);
+	Crypt(name);
 }
 
 void ReadFromFile(List<StudentClass>& _Students) {
 	string name = "Students.txt";
-//	Decrypt(name);
+	Decrypt(name);
 
 	FILE* file;
 	int lenOfDb = 0;
@@ -343,39 +343,6 @@ void ReadFromFile(List<StudentClass>& _Students) {
 	fclose(file);
 }
 
-void ReadMarks(StudentClass& _Student, int n) {
-	FILE* file;
-	char buff = 0;
-	int lenOfStr = 0;
-	int semester = 0;
-	int numberOfMark = 0;
-	int buffMark;
-	string buffString;
-	fopen_s(&file, "Students.txt", "rt");
-
-	while (true) {
-		buffString = "";
-
-		buff = getc(file);
-		if (buff == '\n') break;
-		else if (buff == '$') {
-			semester++;
-			numberOfMark = 0;
-		}
-		else if (buff <= '9' || buff >= '0') {
-			fseek(file, -1, SEEK_CUR);
-			fscanf_s(file, "%d:", &lenOfStr);
-			for (int j = 0; j < lenOfStr; j++) {
-				buffString += getc(file);
-			}
-			fscanf_s(file, ":%d", &buffMark);
-			_Student.SetValueMark(semester, numberOfMark, buffMark);
-			_Student.SetNameMark(semester, numberOfMark, buffString);
-			numberOfMark++;
-		}
-	}
-}
-
 void WriteSubjToFile(List<string>& _Subjects) {
 	FILE* file;
 	string name = "Subjects.txt";
@@ -388,7 +355,7 @@ void WriteSubjToFile(List<string>& _Subjects) {
 	}
 	fclose(file);
 
-//	Crypt(name);
+	Crypt(name);
 }
 
 void ReadSubjFromFile(List<string>& _Subjects) {
@@ -399,7 +366,7 @@ void ReadSubjFromFile(List<string>& _Subjects) {
 	char buff = 0;
 	string name = "Subjects.txt";
 
-//	Decrypt(name);
+	Decrypt(name);
 	fopen_s(&file, name.c_str(), "rt");
 	fscanf_s(file, "%d\n", &numberOfSubjects);
 	for (int i = 0; i < numberOfSubjects; i++) {
