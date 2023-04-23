@@ -2,9 +2,14 @@
 #include "List.h"
 #include "StudentClass.h"
 #include <string>
+#include <Windows.h>
 #include <fstream>
+#include <conio.h>
 
-void AddStudent(List<StudentClass>& _Students);
+#define DOWN 80
+#define UP 72
+#define ENTER 13
+#define ESCAPE 27
 
 int IntLeng(int n);
 

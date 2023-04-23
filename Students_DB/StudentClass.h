@@ -1,8 +1,21 @@
 #pragma once
-#include <regex>
-#include "DateClass.h"
 #include "List.h"
+#include "StudentClass.h"
+#include <string>
+#include <Windows.h>
+#include <fstream>
+#include <conio.h>
+#include <regex>
+
+#include "DateClass.h"
+
+#define DOWN 80
+#define UP 72
+#define ENTER 13
+#define ESCAPE 27
 using namespace std;
+
+int NameCheck(string namestring);
 
 struct FullName {
 	std::string firstName;
@@ -27,15 +40,7 @@ private:
 	bool sex; // man => true   woman => false
 	Mark examMarks[9][10];
 
-	int NameCheck(string namestring) {
-		for (int i = 0; i < namestring.length(); i++) {
-			if (namestring[i] == ' ') return 1;																					  //проверка на пробелы
-			if (((namestring[i] >= 65) && (namestring[i] <= 90)) || ((namestring[i] >= 97) && (namestring[i] <= 122))) return 2;  //проверка на иностранные символы
-			if ((namestring[i] >= 48) && (namestring[i] <= 57)) return 3;														  //проверка на числа 
-			if (!((namestring[i] >= -64) && (namestring[i] <= -1) || (namestring[i] != -88) || (namestring[i] <= -72))) return 4; //проверка на все остальное
-		}
-		return 0;
-	}
+	
 	
 public:
 	StudentClass() {
@@ -117,7 +122,7 @@ public:
 	}
 
 	int SetDepartment(string _department){
-		static const regex regex_department("[А-Я]{2}[-][0-9]");
+		static const regex regex_department("[А-Я]{2}[-][0-9]{1,2}");
 		if (regex_match(_department.c_str(), regex_department)) department = _department;
 		return regex_match(_department.c_str(), regex_department);
 	}
@@ -172,3 +177,29 @@ public:
 };
 
 
+
+bool  UniqueSubjectCheck(List<string>& _SubjectNames, string _Subject);
+
+void AddFirstName(StudentClass* newStudent);
+
+void AddSecondName(StudentClass* newStudent);
+
+void AddSurName(StudentClass* newStudent);
+
+void AddBirthDate(StudentClass* newStudent);
+
+void AddAdmissionYear(StudentClass* newStudent);
+
+void AddFaculty(StudentClass* newStudent);
+
+void AddDepartment(StudentClass* newStudent);
+
+void AddGroup(StudentClass* newStudent);
+
+void AddAccountBookNumber(StudentClass* newStudent);
+
+void ChooseSex(StudentClass* newStudent);
+
+void AddStudent(List<StudentClass>& _Students);
+
+void AddSubject(List<string>& _Subjects);

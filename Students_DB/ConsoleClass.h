@@ -9,7 +9,7 @@
 
 #include "FileWork.h"
 
-const int n = 66;
+const int N = 55;
 #define DOWN 80
 #define UP 72
 #define ENTER 13
@@ -20,12 +20,11 @@ class ConsoleClass {
 private:
 	HANDLE cs = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::string StartMenu = "Главное меню";
-	const int lenOfStartMenu = 6;
-	std::string fieldsOfStartMenu[6] = {
-		"Посмотреть список студентов (удалить или изменить данные)",
-		"Добавить данные о новом студенте",
-		"Удалить данные о студенте",
-		"Сохранить БД",
+	const int lenOfStartMenu = 5;
+	std::string fieldsOfStartMenu[5] = {
+		"Посмотреть список студентов (изменить данные)",
+		"Добавить нового студента",
+		"Удалить запись студента",
 		"Выполнить вариант 66",
 		"Выход"
 	};
@@ -55,17 +54,33 @@ private:
 		"Добавить(изменить) группу",
 		"Добавить(изменить) номер зачетной книжки",
 		"Добавить(изменить) пол",
-		"Добавить(изменить) оценки",
+		"Посмотреть(изменить/добавить) оценки",
 		"Выход"
 	};
 
-	void DrawLine() const{
-		std::cout.width(n); std::cout.fill('-'); std::cout << "-" << endl;
+	const int lenOfSessionMenu = 11;
+	std::string SessionMenu = "Выбор сессии";
+	std::string filedsOfSessionMenu[11] = {
+		"Добавить предмет",
+		"Добавить/изменить сессию 1",
+		"Добавить/изменить сессию 2",
+		"Добавить/изменить сессию 3",
+		"Добавить/изменить сессию 4",
+		"Добавить/изменить сессию 5",
+		"Добавить/изменить сессию 6",
+		"Добавить/изменить сессию 7",
+		"Добавить/изменить сессию 8",
+		"Добавить/изменить сессию 9",
+		"Выход"
+	};
+
+	void DrawLine() {
+		std::cout.width(N); std::cout.fill('-'); std::cout << "-" << endl;
 		std::cout.fill(' ');
 	}
 
-	void DrawDoubleLine() const {
-		std::cout.width(n); std::cout.fill('-'); std::cout << "-"; std::cout.width(n); std::cout.fill('-'); std::cout << "     -";
+	void DrawDoubleLine() {
+		std::cout.width(N); std::cout.fill('-'); std::cout << "-"; std::cout << "     "; std::cout.width(N+2); std::cout.fill('-'); std::cout << "-" << endl;
 		std::cout.fill(' ');
 	}
 
@@ -76,32 +91,44 @@ private:
 	int Choice = 0;
 	int action = 0;
 	int menuLen = 6;
+	int studentChoice = 0;
+	int sessionChoice = 0;
+	StudentClass edStudent;
 public:
 	ConsoleClass() {
 		SetConsoleCP(1251);
 		SetConsoleOutputCP(1251);
 	}
+
 	void DrawMenu(){
 		system("cls");
-		if (Menu == 0) {
+		switch (Menu) {
+		case 0:
 			leng = lenOfStartMenu;
 			fieldsOfMenu = fieldsOfStartMenu;
 			UpNote = StartMenu;
-		}
-		else if (Menu == 1) {
+			break;
+		case 1:
 			leng = lenOfRedMenu;
 			fieldsOfMenu = fieldsOfRedMenu;
 			UpNote = RedMenu;
-		}
+			break;
+		case 4:
+			leng = lenOfSessionMenu;
+			fieldsOfMenu = filedsOfSessionMenu;
+			UpNote = SessionMenu;
+			break;
+		} 
+
 		
 		DrawLine();
-		std::cout.width(n-1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
+		std::cout.width(N-1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
 		DrawLine();
 		for (int i = 0; i < leng; i++) {
 			if (i == Choice) {
-				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
+				std::cout << left << "|"; std::cout.width(N - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 			} else {
-				std::cout.width(n - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << '|' << endl;
+				std::cout.width(N - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << '|' << endl;
 			}
 		}
 		DrawLine();
@@ -114,21 +141,21 @@ public:
 
 
 		DrawLine();
-		std::cout.width(n - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
+		std::cout.width(N - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
 		DrawLine();
 
 		for (int i = 0; i < leng; i++) {
 			if (i == Choice) {
-				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
+				std::cout << left << "|"; std::cout.width(N - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 			}
 			else {
-				std::cout.width(n - 1); std::cout << left << "| " + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); std::cout << '|' << endl;
+				std::cout.width(N - 1); std::cout << left << "| " + _Students.Get(i).GetFirstName() + ' ' + _Students.Get(i).GetSecondName() + ' ' + _Students.Get(i).GetSurName(); std::cout << '|' << endl;
 			}
 		}
 		if (Choice == leng) {
-			std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN);  std::cout << left << "*" + fieldsOfStartMenu[5]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
+			std::cout << left << "|"; std::cout.width(N - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN);  std::cout << left << "*" + fieldsOfStartMenu[4]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << '|' << endl;
 		} else {
-			std::cout.width(n - 1); std::cout << left << "| " + fieldsOfStartMenu[5]; std::cout << '|' << endl;
+			std::cout.width(N - 1); std::cout << left << "| " + fieldsOfStartMenu[4]; std::cout << '|' << endl;
 		}
 		DrawLine();
 	}
@@ -141,70 +168,42 @@ public:
 
 
 		DrawLine();
-		std::cout.width(n - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
+		std::cout.width(N - 1); std::cout << left << "|" + UpNote; std::cout << '|' << endl;
 		DrawDoubleLine();
 		for (int i = 0; i < leng; i++) {
 			if (i == Choice) {
-				std::cout << left << "|"; std::cout.width(n - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << "|     ";
-				switch (Choice) {
-				case 0:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << endl;
-					break;
-				case 1:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << to_string(_Student.GetBirthDate().GetDay()) + '.' + to_string(_Student.GetBirthDate().GetMonth()) + '.' + to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << endl;
-					break;
-				case 2:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAdmissionYear() ;  std::cout << '|' << endl;
-					break;
-				case 3:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFuculty();  std::cout << '|' << endl;
-					break;
-				case 4:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << endl;
-					break;
-				case 5:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetGroup();  std::cout << '|' << endl;
-					break;
-				case 6:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << endl;
-					break;
-				case 7:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetSex() ? "Мужчина" : "Женщина";  std::cout << '|' << endl;
-					break;
-				default:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << " ";  std::cout << '|' << endl;
-				}
+				std::cout << left << "|"; std::cout.width(N - 2); SetConsoleTextAttribute(cs, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(cs, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << "|     ";
 			}
 			else {
-				std::cout.width(n - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << "|     " << endl;
-				switch (Choice) {
-				case 0:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << endl;
-					break;
-				case 1:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << to_string(_Student.GetBirthDate().GetDay()) + '.' + to_string(_Student.GetBirthDate().GetMonth()) + '.' + to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << endl;
-					break;
-				case 2:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAdmissionYear();  std::cout << '|' << endl;
-					break;
-				case 3:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetFuculty();  std::cout << '|' << endl;
-					break;
-				case 4:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << endl;
-					break;
-				case 5:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetGroup();  std::cout << '|' << endl;
-					break;
-				case 6:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << endl;
-					break;
-				case 7:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << _Student.GetSex() ? "Мужчина" : "Женщина";  std::cout << '|' << endl;
-					break;
-				default:
-					std::cout << left << "| "; std::cout.width(n - 1); std::cout << " ";  std::cout << '|' << endl;
-				}
+				std::cout.width(N - 1); std::cout << left << "| " + fieldsOfMenu[i]; std::cout << "|     " ;
+			}
+			switch (i) {
+			case 0:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << endl;
+				break;
+			case 1:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << to_string(_Student.GetBirthDate().GetDay()) + '.' + to_string(_Student.GetBirthDate().GetMonth()) + '.' + to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << endl;
+				break;
+			case 2:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetAdmissionYear();  std::cout << '|' << endl;
+				break;
+			case 3:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetFuculty();  std::cout << '|' << endl;
+				break;
+			case 4:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << endl;
+				break;
+			case 5:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetGroup();  std::cout << '|' << endl;
+				break;
+			case 6:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << endl;
+				break;
+			case 7:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << (_Student.GetSex() ? "Мужчина" : "Женщина");  std::cout << '|' << endl;
+				break;
+			default:
+				std::cout << left << "| "; std::cout.width(N - 1); std::cout << " ";  std::cout << '|' << endl;
 			}
 		}
 		DrawDoubleLine();
@@ -212,17 +211,24 @@ public:
 
 	void Run(List<StudentClass>& _Students, List<string>& _Subjects) {
 
-		while (true) {
+		while (Menu != -1) {
 			switch (Menu) {
 			case 0:
-				menuLen = 6;
+				menuLen = lenOfStartMenu;
 				DrawMenu();
 				break;
 			case 1: case 2:
 				menuLen = _Students.Len() + 1;
 				DrawMenu(_Students);
 				break;
-
+			case 3:
+				menuLen = lenOfRedMenu;
+				DrawMenu(_Students.Get(studentChoice));
+				break;
+			case 4:
+				menuLen = lenOfSessionMenu;
+				DrawMenu();
+				break;
 			}
 			
 			if (Menu != -1) {
@@ -235,25 +241,28 @@ public:
 						switch (Choice) {
 						case 0:
 							Menu = 1;
-							
 							break;
 						case 1:
 							AddStudent(_Students);
+							WriteToFile(_Students);
 							Menu = 0;
 							break;
 						case 2:
 							Menu = 2;
 							break;
-						case 5:
+						case 4:
+							WriteToFile(_Students);
+							WriteSubjToFile(_Subjects);
 							Menu = -1;
 							break;
 						}
+						break;
 					case 1:
 						if (Choice == menuLen - 1) {
 							Menu = 0;
-						} else
-						{
-							
+						} else {
+							studentChoice = Choice;
+							Menu = 3;
 						}
 						break;
 					case 2:
@@ -263,11 +272,66 @@ public:
 						Menu = 0;
 
 						break;
-
+					case 3:
+						edStudent = _Students.Get(studentChoice);
+						switch (Choice) {
+						case 0:
+							AddFirstName(&edStudent);
+							AddSecondName(&edStudent);
+							AddSurName(&edStudent);
+							break;
+						case 1:
+							AddBirthDate(&edStudent);
+							break;
+						case 2:
+							AddAdmissionYear(&edStudent);
+							break;
+						case 3:
+							AddFaculty(&edStudent);
+							break;
+						case 4:
+							AddDepartment(&edStudent);
+							break;
+						case 5:
+							AddGroup(&edStudent);
+							break;
+						case 6:
+							AddAccountBookNumber(&edStudent);
+							break;
+						case 7:
+							ChooseSex(&edStudent);
+							break;
+						case 8:
+							Menu = 4;
+							break;
+						case 9:
+							Menu = 1;
+							break;
+						}
+						_Students.Edit(edStudent, studentChoice);
+						WriteToFile(_Students);
+						break;
+					case 4:
+						switch (Choice) {
+						case 0:
+							AddSubject(_Subjects);
+							break;
+						case 1: case 2: case 3: case 4: case 5: case 6:case 7: case 8:case 9:
+							sessionChoice = Choice - 1;
+							Menu = 5;
+							break;
+						case 10:
+							Menu = 3;
+							break;
+						}
 					}
 					Choice = 0;
 					}
-				if (action == ESCAPE) break;
+				if (action == ESCAPE) {
+					WriteToFile(_Students);
+					WriteSubjToFile(_Subjects);
+					break;
+				}
 				}
 			} 
 			

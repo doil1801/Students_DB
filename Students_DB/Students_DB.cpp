@@ -1,13 +1,13 @@
 ﻿#include "ConsoleClass.h"
-#include <iostream>
-#include <cstdio>
-#include <regex>
 #include "StudentClass.h"
 #include "List.h"
 
 int main() {
-	List<string> SubjNames;
+	List<string> SubjectNames;
 	List<StudentClass> Students;
 	ConsoleClass cons;
+
+	ReadFromFile(Students);
+	cons.Run(Students, SubjectNames);
 
 }
