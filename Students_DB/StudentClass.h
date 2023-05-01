@@ -6,16 +6,15 @@
 #include <fstream>
 #include <conio.h>
 #include <regex>
-
 #include "DateClass.h"
 
 #define DOWN 80
 #define UP 72
 #define ENTER 13
 #define ESCAPE 27
-using namespace std;
 
-int NameCheck(string namestring);
+
+int NameCheck(std::string _nameString);
 
 struct FullName {
 	std::string firstName;
@@ -33,21 +32,20 @@ private:
 	FullName name;
 	DateClass birthDate;
 	unsigned int admissionYear;
-	std::string fuculty;
+	std::string faculty;
 	std::string department;
 	std::string group;
 	std::string accountBookNumber;
 	bool sex; // man => true   woman => false
 	Mark examMarks[9][10];
+	float averageMark;
 
-	
-	
 public:
 	StudentClass() {
 		name = { "Undefined", "Undefined", "Undefined" };
 		birthDate.SetDate("01.01.1970");
 		admissionYear = 1970;
-		fuculty = "Undefined";
+		faculty = "Undefined";
 		department = "Undefined";
 		group = "Undefined";
 		accountBookNumber = "Undefined";
@@ -58,49 +56,50 @@ public:
 				examMarks[i][j].name = "Undefined";
 			}
 		}
+		averageMark = 0;
 	}
 
-	int SetFirstName(std::string namestring) {
-		if (NameCheck(namestring) == 0) name.firstName = namestring;
-		return NameCheck(namestring);
+	int SetFirstName(std::string _nameString) {
+		if (NameCheck(_nameString) == 0) name.firstName = _nameString;
+		return NameCheck(_nameString);
 	}
 
-	string GetFirstName() {
+	std::string GetFirstName() {
 		return name.firstName;
 	}
 
-	int SetSecondName(std::string namestring){
-		if (NameCheck(namestring) == 0) name.secondName = namestring;
-		return NameCheck(namestring);
+	int SetSecondName(std::string _nameString){
+		if (NameCheck(_nameString) == 0) name.secondName = _nameString;
+		return NameCheck(_nameString);
 	}
 
-	string GetSecondName() {
+	std::string GetSecondName() {
 		return name.secondName;
 	}
 
-	int SetSurName(std::string namestring){
-		if (NameCheck(namestring) == 0) name.surName = namestring;
-		return NameCheck(namestring);
+	int SetSurName(std::string _nameString){
+		if (NameCheck(_nameString) == 0) name.surName = _nameString;
+		return NameCheck(_nameString);
 	}
 
-	string GetSurName() {
+	std::string GetSurName() {
 		return name.surName;
 	}
 
-	bool SetBirthDate(std::string snDate){
-		return birthDate.SetDate(snDate);
+	bool SetBirthDate(std::string _stringDate){
+		return birthDate.SetDate(_stringDate);
 	}
 
-	DateClass GetBirthDate(){
+	DateClass GetBirthDate() const{
 		return birthDate;
 	}
 
-	int SetAdmissionYear(string datestring) {
+	int SetAdmissionYear(std::string _stringDate) {
 		int _year = 0;
-		for (int i = 0; i < datestring.length(); i++) {
-			if (!((datestring[i] >= 48) && (datestring[i] <= 57))) return 1;  //проверка на все кроме чисел
+		for (int i = 0; i < _stringDate.length(); i++) {
+			if (!((_stringDate[i] >= 48) && (_stringDate[i] <= 57))) return 1;  //проверка на все кроме чисел
 			else {
-				_year = _year * 10 + ((int)datestring[i] - 48);
+				_year = _year * 10 + ((int)_stringDate[i] - 48);
 			}
 		}
 		if (_year > 2023 || _year < 1970) return 2; //некорректность даты
@@ -108,43 +107,43 @@ public:
 		return 0;
 	}
 
-	unsigned int GetAdmissionYear(){
+	unsigned int GetAdmissionYear() const {
 		return admissionYear;
 	}
 
-	int SetFuculty(string _fuculty){
-		if (NameCheck(_fuculty) == 0) fuculty = _fuculty;
-		return NameCheck(_fuculty);
+	int SetFaculty(std::string _faculty){
+		if (NameCheck(_faculty) == 0) faculty = _faculty;
+		return NameCheck(_faculty);
 	}
 
-	std::string GetFuculty(){
-		return fuculty;
+	std::string GetFaculty(){
+		return faculty;
 	}
 
-	int SetDepartment(string _department){
-		static const regex regex_department("[А-Я]{2}[-][0-9]{1,2}");
-		if (regex_match(_department.c_str(), regex_department)) department = _department;
-		return regex_match(_department.c_str(), regex_department);
+	int SetDepartment(std::string _department){
+		static const std::regex regexDepartment("[А-Я]{2}[-][0-9]{1,2}");
+		if (std::regex_match(_department.c_str(), regexDepartment)) department = _department;
+		return std::regex_match(_department.c_str(), regexDepartment);
 	}
 
 	std::string GetDepartment(){
 		return department;
 	}
 
-	bool SetGroup(string _group) {
-		static const regex regex_group("[А-Я]{4}[-][0-9]{2}[-][0-9]{2}");
-		if (regex_match(_group.c_str(), regex_group)) group = _group;
-		return regex_match(_group.c_str(), regex_group);
+	bool SetGroup(std::string _group) {
+		static const std::regex regexGroup("[А-Я]{4}[-][0-9]{2}[-][0-9]{2}");
+		if (std::regex_match(_group.c_str(), regexGroup)) group = _group;
+		return std::regex_match(_group.c_str(), regexGroup);
 	}
 
 	std::string GetGroup() {
 		return group;
 	}
 
-	bool SetAccountBookNumber(string _accBook) {
-		static const regex regex_AccBook("[0-9]{2}[А-Я][0-9]{4}");
-		if (regex_match(_accBook.c_str(), regex_AccBook)) accountBookNumber = _accBook;
-		return regex_match(_accBook.c_str(), regex_AccBook);
+	bool SetAccountBookNumber(std::string _accountBookNumber) {
+		static const std::regex regexAccountBookNumber("[0-9]{2}[А-Я][0-9]{4}");
+		if (std::regex_match(_accountBookNumber.c_str(), regexAccountBookNumber)) accountBookNumber = _accountBookNumber;
+		return std::regex_match(_accountBookNumber.c_str(), regexAccountBookNumber);
 	}
 
 	std::string GetAccountBookNumber() {
@@ -155,51 +154,112 @@ public:
 		sex = _sex;
 	}
 
-	bool GetSex(){
+	bool GetSex() const{
 		return sex;
 	}
 
-	void SetValueMark(int _semester, int _pos, int _value) {
-		examMarks[_semester][_pos].mark = _value;
+	void SetValueMark(int _semester, int _numberOfMark, int _value) {
+		examMarks[_semester][_numberOfMark].mark = _value;
+		CalculateAverageMark();
 	}
 
-	void SetNameMark(int _semester, int _pos, string _name) {
-		examMarks[_semester][_pos].name = _name;
+	void SetNameMark(int _semester, int _numberOfMark, std::string _name) {
+		examMarks[_semester][_numberOfMark].name = _name;
 	}
 
-	int GetValueMark(int _semester, int _pos) {
-		return examMarks[_semester][_pos].mark;
+	int AddNameMark(int _semester, std::string _name) {
+		for (int i = 0; i < 10; i++) {
+			if (examMarks[_semester][i].name == "Undefined") {
+				examMarks[_semester][i].name = _name;
+				return i;
+			}
+		}
+		return -1;
 	}
 
-	string GetNameMark(int _semester, int _pos) {
-		return examMarks[_semester][_pos].name;
+	int GetValueMark(int _semester, int _numberOfMark) const{
+		return examMarks[_semester][_numberOfMark].mark;
+	}
+
+	std::string GetNameMark(int _semester, int _numberOfMark) {
+		return examMarks[_semester][_numberOfMark].name;
+	}
+
+	int GetNumberOfMarks(int _semester) const{
+		int count = 0;
+		for (int i = 0; i < 10; i++) {
+			if (examMarks[_semester][i].mark != -1) count++;
+		}
+		return count;
+	}
+
+	void DeleteMark(int _semester, int _numberOfMark) {
+		int i = _numberOfMark;
+		while ((i < 9) && (examMarks[_semester][i].name != "Undefined")) {
+			examMarks[_semester][i] = examMarks[_semester][i + 1];
+			i++;
+		}
+		if (i == 9 && (examMarks[_semester][i].name != "Undefined")) {
+			examMarks[_semester][i].name = "Undefined";
+			examMarks[_semester][i].mark = -1;
+		}
+
+		CalculateAverageMark();
+	}
+
+	void CalculateAverageMark() {
+		int count = 0;
+		float sum = 0;
+		for (int i = 0; i < 9; i++ ) {
+			for (int j = 0; j < 10; j++) {
+				if (examMarks[i][j].mark >= 2) {
+					count++;
+					sum += examMarks[i][j].mark;
+				}
+			}
+		}
+		if (count != 0) {
+			averageMark = round(sum / count * 100) / 100;
+		}
+	}
+
+	float GetAverageMark() const {
+		return averageMark;
 	}
 };
 
 
 
-bool  UniqueSubjectCheck(List<string>& _SubjectNames, string _Subject);
+void AddFirstName(StudentClass* _student);
 
-void AddFirstName(StudentClass* newStudent);
+void AddSecondName(StudentClass* _student);
 
-void AddSecondName(StudentClass* newStudent);
+void AddSurName(StudentClass* _student);
 
-void AddSurName(StudentClass* newStudent);
+void AddBirthDate(StudentClass* _student);
 
-void AddBirthDate(StudentClass* newStudent);
+void AddAdmissionYear(StudentClass* _student);
 
-void AddAdmissionYear(StudentClass* newStudent);
+void AddFaculty(StudentClass* _student);
 
-void AddFaculty(StudentClass* newStudent);
+void AddDepartment(StudentClass* _student);
 
-void AddDepartment(StudentClass* newStudent);
+void AddGroup(StudentClass* _student);
 
-void AddGroup(StudentClass* newStudent);
+void AddAccountBookNumber(StudentClass* _student);
 
-void AddAccountBookNumber(StudentClass* newStudent);
+void ChooseSex(StudentClass* _student);
 
-void ChooseSex(StudentClass* newStudent);
+void AddStudent(List<StudentClass>& _students);
 
-void AddStudent(List<StudentClass>& _Students);
+void AddSubject(List<std::string>& _subjects);
 
-void AddSubject(List<string>& _Subjects);
+bool IsSubjectInSession(StudentClass* student, std::string _subject, int _semester);
+
+void AddSessionSubject(StudentClass* student, List<std::string>& _subjectNames, int _semester);
+
+void AddMark(StudentClass* student, int _semester, int _numberOfMark);
+
+void DeleteSubject(List<std::string>& _subjects, int _numberOfSubject, List<StudentClass>& _students);
+
+void ExecuteOrder66(List<StudentClass>& _students);

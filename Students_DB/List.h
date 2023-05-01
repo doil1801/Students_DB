@@ -1,50 +1,50 @@
 #pragma once
 #include <iostream>
-using namespace std;
 
-template<typename T>
+
+template<typename Type>
 class Element {
 private:
-	T value;
-	Element<T>* nextEl;
-	Element<T>* prevEl;
+	Type value;
+	Element<Type>* nextEl;
+	Element<Type>* prevEl;
 public:
 	Element() {
 		nextEl = nullptr;
 		prevEl = nullptr;
 	}
 
-	void SetValue(T val) {
-		value = val;
+	void SetValue(Type _value) {
+		value = _value;
 	}
 
-	void SetNextPtr(Element<T>* Ptr) {
-		nextEl = Ptr;
+	void SetNextPtr(Element<Type>* _ptr) {
+		nextEl = _ptr;
 	}
 
-	void SetPrevPtr(Element<T>* Ptr) {
-		prevEl = Ptr;
+	void SetPrevPtr(Element<Type>* _ptr) {
+		prevEl = _ptr;
 	}
 
-	Element<T>* GetPrevPtr() const {
+	Element<Type>* GetPrevPtr() const {
 		return prevEl;
 	}
 
-	Element<T>* GetNextPtr() const {
+	Element<Type>* GetNextPtr() const {
 		return nextEl;
 	}
 
-	T GetValue() const {
+	Type GetValue() const {
 		return value;
 	}
 };
 
-template<typename T>
+template<typename Type>
 class List {
 private:
 	unsigned int amount;
-	Element<T>* firstEl;
-	Element<T>* lastEl;
+	Element<Type>* firstEl;
+	Element<Type>* lastEl;
 public:
 	List() {
 		amount = 0;
@@ -52,8 +52,17 @@ public:
 		lastEl = nullptr;
 	}
 
-	void Append(T val) {
-		Element<T>* newElPtr = new Element<T>;
+	List(List<Type>& list) {
+		amount = 0;
+		firstEl = nullptr;
+		lastEl = nullptr;
+		for (int i = 0; i < list.amount; i++) {
+			Append(list[i]);
+		}
+	}
+
+	void Append(Type val) {
+		Element<Type>* newElPtr = new Element<Type>;
 		newElPtr->SetValue(val);
 		if (amount != 0) {
 			newElPtr->SetPrevPtr(lastEl);
@@ -66,9 +75,9 @@ public:
 		amount++;
 	}
 
-	void Insert(T rec, unsigned int idEl) {
+	void Insert(Type rec, unsigned int idEl) {
 		if (idEl > amount) {
-			cout << "Insert error";
+			std::cout << "Insert error" << std::endl;
 			return;
 		}
 		else {
@@ -76,11 +85,11 @@ public:
 				Append(rec);
 				return;
 			}
-			Element<T>* idElement = firstEl;
+			Element<Type>* idElement = firstEl;
 			for (unsigned int i = 0; i < idEl; i++) {
 				idElement = idElement->GetNextPtr();
 			}
-			Element<T>* newElPtr = new Element<T>;
+			Element<Type>* newElPtr = new Element<Type>;
 			if (idEl == 0) {
 				newElPtr->SetPrevPtr(nullptr);
 				newElPtr->SetNextPtr(idElement);
@@ -99,12 +108,12 @@ public:
 		}
 	}
 
-	void Edit(T rec, unsigned int idEl) {
+	void Edit(Type rec, unsigned int idEl) {
 		if (idEl > amount) {
-			cout << "Edit error";
+			std::cout << "Edit error" << std::endl;
 		}
 		else {
-			Element<T>* idElement = firstEl;
+			Element<Type>* idElement = firstEl;
 			if (amount > 0) {
 				for (unsigned int i = 0; i < idEl; i++) {
 					idElement = idElement->GetNextPtr();
@@ -116,12 +125,12 @@ public:
 
 	void Set(int val, unsigned int idEl) {
 		if (idEl > amount) {
-			std::cout << "Set error";
+			std::cout << "Set error" << std::endl;
 		}
 		else {
-			Element<T>* newElementPtr = new Element<T>;
+			Element<Type>* newElementPtr = new Element<Type>;
 			if (amount > 0) {
-				Element<T>* idElement = firstEl;
+				Element<Type>* idElement = firstEl;
 				for (unsigned int i = 0; i < idEl - 1; i++) {
 					idElement = idElement->GetNextPtr();
 				}
@@ -143,11 +152,9 @@ public:
 		}
 	}
 
-
-
-	T Pop() {
+	Type Pop() {
 		int value = lastEl->GetValue();
-		Element<T>* Ptr = lastEl;
+		Element<Type>* Ptr = lastEl;
 		if (amount > 1) {
 			lastEl = lastEl->GetPrevPtr();
 			lastEl->SetNextPtr(nullptr);
@@ -163,36 +170,42 @@ public:
 
 	void Delete(unsigned int idEl) {
 		if (idEl >= amount || amount == 0) {
-			std::cout << "Delete error";
+			std::cout << "Delete error" << std::endl;
 		}
 		else {
-			Element<T>* idElement = firstEl;
+			Element<Type>* idElement = firstEl;
 			if (amount > 1) {
 				for (unsigned int i = 0; i < idEl; i++) {
 					idElement = idElement->GetNextPtr();
 				}
 				if (idElement == firstEl) {
+					
 					idElement->GetNextPtr()->SetPrevPtr(nullptr);
+					firstEl = idElement->GetNextPtr();
 				}
 				else if (idElement == lastEl) {
 					idElement->GetPrevPtr()->SetNextPtr(nullptr);
+					lastEl = idElement->GetPrevPtr();
 				}
 				else {
 					idElement->GetNextPtr()->SetPrevPtr(idElement->GetPrevPtr());
 					idElement->GetPrevPtr()->SetNextPtr(idElement->GetNextPtr());
 				}
+			} else {
+				firstEl = nullptr;
+				lastEl = nullptr;
 			}
 			amount--;
 			free(idElement);
 		}
 	}
 
-	T Get(unsigned int idEl) {
+	Type Get(unsigned int idEl) {
 		if (idEl >= amount) {
-			std::cout << "Get error";
+			std::cout << "Get error" << std::endl;
 		}
 		else {
-			Element<T>* idElement = firstEl;
+			Element<Type>* idElement = firstEl;
 			for (unsigned int i = 0; i < idEl; i++) {
 				idElement = idElement->GetNextPtr();
 			}
@@ -200,14 +213,38 @@ public:
 		}
 	}
 
-
-
-	int Len(){
+	int Len() const {
 		return amount;
 	}
 
+	void Swap(int firstElementId, int secondElementId) {
+		if (firstElementId >= amount || secondElementId >= amount || Len() < 2) {
+			std::cout << "Swap error" << std::endl;
+		} else {
+			Element<Type>* firstElement = firstEl;
+			Element<Type>* secondElement = firstEl;
+			Type buffer;
+
+			for (unsigned int i = 0; i < firstElementId; i++) {
+				firstElement = firstElement->GetNextPtr();
+			}
+
+			for (unsigned int i = 0; i < secondElementId; i++) {
+				secondElement = secondElement->GetNextPtr();
+			}
+
+			buffer = firstElement->GetValue();
+			firstElement->SetValue(secondElement->GetValue());
+			secondElement->SetValue(buffer);
+		}
+	}
+
+	Type operator[] (int i) {
+		return Get(i);
+	}
+
 	~List() {
-		Element<T>* curEl;
+		Element<Type>* curEl;
 		if (firstEl != nullptr) {
 			curEl = firstEl;
 		}
@@ -216,7 +253,7 @@ public:
 		}
 
 		for (int i = 0; i < amount-1; i++) {
-			Element<T>* nextEl = curEl->GetNextPtr();
+			Element<Type>* nextEl = curEl->GetNextPtr();
 			delete curEl;
 			curEl = nextEl;
 		}

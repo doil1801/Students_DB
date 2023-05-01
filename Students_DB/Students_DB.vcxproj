@@ -131,7 +131,6 @@
     <ClCompile Include="DateClass.cpp" />
     <ClCompile Include="FileWork.cpp" />
     <ClCompile Include="List.cpp" />
-    <ClCompile Include="MarksClass.cpp" />
     <ClCompile Include="StudentClass.cpp" />
     <ClCompile Include="Students_DB.cpp" />
   </ItemGroup>
@@ -139,9 +138,7 @@
     <ClInclude Include="ConsoleClass.h" />
     <ClInclude Include="DateClass.h" />
     <ClInclude Include="FileWork.h" />
-    <ClInclude Include="IsOk.h" />
     <ClInclude Include="List.h" />
-    <ClInclude Include="MarksClass.h" />
     <ClInclude Include="StudentClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,11 +3,13 @@
 #include "List.h"
 
 int main() {
-	List<string> SubjectNames;
-	List<StudentClass> Students;
-	ConsoleClass cons;
+	List<std::string> subjectNames;
+	List<StudentClass> students;
+	ConsoleClass console;
 
-	ReadFromFile(Students);
-	cons.Run(Students, SubjectNames);
-
+	ReadFromFile(students);
+	ReadSubjFromFile(subjectNames);
+	WriteToFile(students);
+	WriteSubjToFile(subjectNames);
+	console.Run(students, subjectNames);
 }

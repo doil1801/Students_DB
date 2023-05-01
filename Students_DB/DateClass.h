@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-using namespace std;
+
 
 class DateClass{
 private:
@@ -21,7 +21,7 @@ private:
 				else if (flag == 0 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) _day = _day * 10 + ((int)sDate[i] - 48);
 				else if (flag == 1 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) _month = _month * 10 + ((int)sDate[i] - 48);
 				else if (flag == 2 && ((int)sDate[i] - 48) >= 0 && ((int)sDate[i] - 48) <= 9) _year = _year * 10 + ((int)sDate[i] - 48);
-				else return false;//19.8.2019
+				else return false;
 			}
 			if (_day < 1) {
 				return false;
@@ -66,7 +66,7 @@ public:
 		month = 0;
 		year = 0;
 	}
-	bool SetDate(string sDate) {
+	bool SetDate(std::string sDate) {
 		int flag = 0;
 		if (!IsCorrectDate(sDate)) return false;
 		day = 0; month = 0; year = 0;
@@ -78,13 +78,13 @@ public:
 		}
 		return true;
 	}
-	unsigned int GetDay() {
+	unsigned int GetDay() const {
 		return day;
 	}
-	unsigned int GetMonth() {
+	unsigned int GetMonth() const {
 		return month;
 	}
-	unsigned int GetYear() {
+	unsigned int GetYear() const {
 		return year;
 	}
 };

@@ -11,16 +11,14 @@
 #define ENTER 13
 #define ESCAPE 27
 
-int IntLeng(int n);
+void WriteToFile(List<StudentClass>& _students);
 
-void WriteToFile(List<StudentClass>& _Students);
+void ReadFromFile(List<StudentClass>& _students);
 
-void ReadFromFile(List<StudentClass>& _Students);
+void WriteSubjToFile(List<std::string>& _subjects);
 
-void WriteSubjToFile(List<string>& _Subjects);
+void ReadSubjFromFile(List<std::string>& _subjects);
 
-void ReadSubjFromFile(List<string>& _Subjects);
+void Crypt(std::string fileName);
 
-void Crypt(string filename);
-
-void Decrypt(string filename);
+void Decrypt(std::string fileName);
