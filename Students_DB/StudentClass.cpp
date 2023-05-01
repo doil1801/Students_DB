@@ -1,4 +1,8 @@
 #include "StudentClass.h"
+#include <windows.h>
+#include <conio.h>
+
+
 
 
 int NameCheck(std::string _nameString) {
@@ -459,37 +463,3 @@ void SortByAverageMark(List<StudentClass>& _students) {
 	}
 }
 
-void ExecuteOrder66(List<StudentClass>& _students) {
-	system("cls");
-
-	List<StudentClass> students = _students;
-	SortByAverageMark(students);
-	std::cout << "Успеваемость студентов: " << std::endl;
-
-	std::cout.width(35);
-	std::cout << std::left << "Имя";
-
-	std::cout.width(15);
-	std::cout << std::left << "Дата рождения";
-
-	std::cout.width(15);
-	std::cout << std::left << "Средний балл";
-	std::cout << std::endl;
-
-	for (int i = 0; i < students.Len(); i++) {
-		std::cout.width(35);
-		std::cout << std::left << students[i].GetFirstName() + ' ' + students[i].GetSecondName() + ' ' + students[i].GetSurName();
-
-		std::cout.width(15);
-		std::cout << std::left << std::to_string(students[i].GetBirthDate().GetYear());
-
-		std::cout.width(15);
-		std::cout.precision(2);
-		std::cout << std::left;
-		std::cout << std::fixed;
-		std::cout << students[i].GetAverageMark() << std::endl;
-	}
-	std::cout << "Нажмите любую кнопку для перехода в меню.";
-	_getch();
-	return;
-}

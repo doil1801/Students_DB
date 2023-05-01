@@ -2,9 +2,7 @@
 #include "List.h"
 #include "StudentClass.h"
 #include <string>
-#include <Windows.h>
 #include <fstream>
-#include <conio.h>
 
 #define DOWN 80
 #define UP 72

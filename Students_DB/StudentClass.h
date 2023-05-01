@@ -2,9 +2,6 @@
 #include "List.h"
 #include "StudentClass.h"
 #include <string>
-#include <Windows.h>
-#include <fstream>
-#include <conio.h>
 #include <regex>
 #include "DateClass.h"
 
@@ -262,4 +259,4 @@ void AddMark(StudentClass* student, int _semester, int _numberOfMark);
 
 void DeleteSubject(List<std::string>& _subjects, int _numberOfSubject, List<StudentClass>& _students);
 
-void ExecuteOrder66(List<StudentClass>& _students);
+void SortByAverageMark(List<StudentClass>& _students);

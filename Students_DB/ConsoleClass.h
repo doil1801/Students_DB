@@ -92,17 +92,15 @@ private:
 
 	
 
-	void DrawLine() {
-		std::cout.width(N); std::cout.fill('-'); std::cout << "-" << std::endl;
+	void DrawLine(int length) {
+		std::cout.width(length); std::cout.fill('-'); std::cout << "-" << std::endl;
 		std::cout.fill(' ');
 	}
 
-	void DrawDoubleLine() {
-		std::cout.width(N); std::cout.fill('-'); std::cout << "-"; std::cout << "     "; std::cout.width(N+2); std::cout.fill('-'); std::cout << "-" << std::endl;
+	void DrawDoubleLine(int length) {
+		std::cout.width(length); std::cout.fill('-'); std::cout << "-"; std::cout << "     "; std::cout.width(length +2); std::cout.fill('-'); std::cout << "-" << std::endl;
 		std::cout.fill(' ');
 	}
-
-	
 
 	void DrawMenu() {
 		system("cls");
@@ -125,9 +123,9 @@ private:
 		}
 
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawLine();
+		DrawLine(N);
 		for (int i = 0; i < length; i++) {
 			if (i == choice) {
 				std::cout << std::left << "|";
@@ -142,31 +140,31 @@ private:
 				std::cout << '|' << std::endl;
 			}
 		}
-		DrawLine();
+		DrawLine(N);
 	}
 
-	void DrawMenu(List<StudentClass>& _Students) {
+	void DrawMenu(List<StudentClass>& _students) {
 		system("cls");
-		length = _Students.Len();
+		length = _students.Len();
 		upNote = menuOfStudents;
 
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawLine();
+		DrawLine(N);
 
 		for (int i = 0; i < length; i++) {
 			if (i == choice) {
 				std::cout << std::left << "|";
 				std::cout.width(N - 2);
 				SetConsoleTextAttribute(console, FOREGROUND_GREEN);
-				std::cout << "*" + _Students[i].GetFirstName() + ' ' + _Students[i].GetSecondName() + ' ' + _Students[i].GetSurName();
+				std::cout << "*" + _students[i].GetFirstName() + ' ' + _students[i].GetSecondName() + ' ' + _students[i].GetSurName();
 				SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 				std::cout << '|' << std::endl;
 			}
 			else {
 				std::cout.width(N - 1);
-				std::cout << std::left << "| " + _Students[i].GetFirstName() + ' ' + _Students[i].GetSecondName() + ' ' + _Students[i].GetSurName();
+				std::cout << std::left << "| " + _students[i].GetFirstName() + ' ' + _students[i].GetSecondName() + ' ' + _students[i].GetSurName();
 				std::cout << '|' << std::endl;
 			}
 		}
@@ -183,57 +181,93 @@ private:
 			std::cout << std::left << "| " + exit;
 			std::cout << '|' << std::endl;
 		}
-		DrawLine();
+		DrawLine(N);
 	}
 
-	void DrawMenu(StudentClass _Student) {
+	void DrawMenu(StudentClass _student) {
 		system("cls");
 		fieldsOfMenu = fieldsOfRedactionMenu;
 		length = lenOfRedMenu;
 		upNote = redactionMenu;
 
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawDoubleLine();
+		DrawDoubleLine(N);
 		for (int i = 0; i < length; i++) {
 			if (i == choice) {
 				std::cout << std::left << "|"; std::cout.width(N - 2); SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << "*" + fieldsOfMenu[i]; SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED); std::cout << "|     ";
+				switch (i) {
+				case 0:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetFirstName() + ' ' + _student.GetSecondName() + ' ' + _student.GetSurName(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 1:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << std::to_string(_student.GetBirthDate().GetDay()) + '.' + std::to_string(_student.GetBirthDate().GetMonth()) + '.' + std::to_string(_student.GetBirthDate().GetYear()); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 2:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetAdmissionYear(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 3:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetFaculty(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break; 
+				case 4:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetDepartment(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 5:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetGroup(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 6:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << _student.GetAccountBookNumber(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 7:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout << (_student.GetSex() ? "М" : "Ж"); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << '|' << std::endl;
+					break;
+				case 8:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  SetConsoleTextAttribute(console, FOREGROUND_GREEN); std::cout.precision(2); std::cout << std::fixed << _student.GetAverageMark(); SetConsoleTextAttribute(console, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);  std::cout << "|" << std::endl;
+					break;
+				default:
+					std::cout << std::left << "| "; std::cout.width(N - 1);  std::cout << " ";  std::cout << '|' << std::endl;
+					break;
+				}
 			}
 			else {
 				std::cout.width(N - 1); std::cout << std::left << "| " + fieldsOfMenu[i]; std::cout << "|     ";
+				switch (i) {
+				case 0:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetFirstName() + ' ' + _student.GetSecondName() + ' ' + _student.GetSurName();  std::cout << '|' << std::endl;
+					break;
+				case 1:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << std::to_string(_student.GetBirthDate().GetDay()) + '.' + std::to_string(_student.GetBirthDate().GetMonth()) + '.' + std::to_string(_student.GetBirthDate().GetYear());  std::cout << '|' << std::endl;
+					break;
+				case 2:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetAdmissionYear();  std::cout << '|' << std::endl;
+					break;
+				case 3:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetFaculty();  std::cout << '|' << std::endl;
+					break;
+				case 4:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetDepartment();  std::cout << '|' << std::endl;
+					break;
+				case 5:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetGroup();  std::cout << '|' << std::endl;
+					break;
+				case 6:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _student.GetAccountBookNumber();  std::cout << '|' << std::endl;
+					break;
+				case 7:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << (_student.GetSex() ? "М" : "Ж");  std::cout << '|' << std::endl;
+					break;
+				case 8:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout.precision(2); std::cout << std::fixed << _student.GetAverageMark();  std::cout << "|" << std::endl;
+					break;
+				default:
+					std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << " ";  std::cout << '|' << std::endl;
+					break;
+				}
 			}
-			switch (i) {
-			case 0:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetFirstName() + ' ' + _Student.GetSecondName() + ' ' + _Student.GetSurName();  std::cout << '|' << std::endl;
-				break;
-			case 1:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << std::to_string(_Student.GetBirthDate().GetDay()) + '.' + std::to_string(_Student.GetBirthDate().GetMonth()) + '.' + std::to_string(_Student.GetBirthDate().GetYear());  std::cout << '|' << std::endl;
-				break;
-			case 2:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetAdmissionYear();  std::cout << '|' << std::endl;
-				break;
-			case 3:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetFaculty();  std::cout << '|' << std::endl;
-				break;
-			case 4:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetDepartment();  std::cout << '|' << std::endl;
-				break;
-			case 5:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetGroup();  std::cout << '|' << std::endl;
-				break;
-			case 6:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << _Student.GetAccountBookNumber();  std::cout << '|' << std::endl;
-				break;
-			case 7:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << (_Student.GetSex() ? "Мужчина" : "Женщина");  std::cout << '|' << std::endl;
-				break;
-			default:
-				std::cout << std::left << "| "; std::cout.width(N - 1); std::cout << " ";  std::cout << '|' << std::endl;
-				break;
-			}
+			
 		}
-		DrawDoubleLine();
+		DrawDoubleLine(N);
 	}
 
 	void DrawMenu(List<std::string>& _subjects) {
@@ -242,9 +276,9 @@ private:
 		upNote = subjectDeleteMenu;
 
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawLine();
+		DrawLine(N);
 
 		for (int i = 0; i < length; i++) {
 			if (i == choice) {
@@ -274,16 +308,16 @@ private:
 			std::cout << std::left << "| " + exit;
 			std::cout << '|' << std::endl;
 		}
-		DrawLine();
+		DrawLine(N);
 	}
 
 	void DrawSession(StudentClass _Student) {
 		system("cls");
 		length = _Student.GetNumberOfMarks(sessionChoice);
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawLine();
+		DrawLine(N);
 
 		upNote = "Результаты сессии №" + std::to_string(sessionChoice + 1);
 		if (choice == 0) {
@@ -344,16 +378,16 @@ private:
 			std::cout << std::left << "| " + exit;
 			std::cout << '|' << std::endl;
 		}
-		DrawLine();
+		DrawLine(N);
 	}
 
 	void DrawSessionForDelete(StudentClass _Student) {
 		system("cls");
 		length = _Student.GetNumberOfMarks(sessionChoice);
 
-		DrawLine();
+		DrawLine(N);
 		std::cout.width(N - 1); std::cout << std::left << "|" + upNote; std::cout << '|' << std::endl;
-		DrawLine();
+		DrawLine(N);
 
 		upNote = "Выберите оценку для удаления";
 
@@ -388,9 +422,83 @@ private:
 			std::cout << std::left << "| " + exit;
 			std::cout << '|' << std::endl;
 		}
-		DrawLine();
+		DrawLine(N);
 	}
 
+	void ExecuteOrder66(List<StudentClass>& _students) {
+		system("cls");
+
+		List<StudentClass> students = _students;
+		SortByAverageMark(students);
+		std::cout << "Успеваемость студентов: " << std::endl;
+
+		DrawLine(119);
+		std::cout.width(17);
+		std::cout << std::left << "| ФИО";
+
+		std::cout.width(14);
+		std::cout << std::left << "| Год рождения";
+
+		std::cout.width(17);
+		std::cout << std::left << "| Год поступления";
+
+		std::cout.width(10);
+		std::cout << std::left << "| Институт";
+
+		std::cout.width(9);
+		std::cout << std::left << "| Кафедра";
+
+		std::cout.width(13);
+		std::cout << std::left << "| Группа";
+
+		std::cout.width(19);
+		std::cout << std::left << "| Номер зач. книжки";
+
+		std::cout.width(5);
+		std::cout << std::left << "| Пол";
+
+		std::cout.width(14);
+		std::cout << std::left << "| Средний балл";
+		std::cout << '|' << std::endl;
+
+		DrawLine(119);
+		for (int i = 0; i < students.Len(); i++) {
+			std::cout.width(17);
+			std::cout << std::left << "| " + students[i].GetFirstName() + ' ' + students[i].GetSecondName()[0] + '.' + students[i].GetSurName()[0] + '.';
+
+			std::cout.width(14);
+			std::cout << std::left << "| " + std::to_string(students[i].GetBirthDate().GetYear());
+
+			std::cout.width(17);
+			std::cout << std::left << "| " + std::to_string(students[i].GetAdmissionYear());
+
+			std::cout.width(10);
+			std::cout << std::left << "| " + students[i].GetFaculty();
+
+			std::cout.width(9);
+			std::cout << std::left << "| " + students[i].GetDepartment();
+
+			std::cout.width(13);
+			std::cout << std::left << "| " + students[i].GetGroup();
+
+			std::cout.width(19);
+			std::cout << std::left << "| " + students[i].GetAccountBookNumber();
+
+			std::cout.width(5);
+			std::cout << std::left << (students[i].GetSex() ? "| М  |" : "| Ж  |");
+
+			std::cout.width(9);
+			std::cout << ' ';
+			std::cout.precision(2);
+			std::cout ;
+			std::cout ;
+			std::cout << std::left << std::fixed <<students[i].GetAverageMark() << "|" << std::endl;
+		}
+		DrawLine(119);
+		std::cout << "Нажмите любую кнопку для перехода в меню.";
+		_getch();
+		return;
+	}
 public:
 	ConsoleClass() {
 		SetConsoleCP(1251);
